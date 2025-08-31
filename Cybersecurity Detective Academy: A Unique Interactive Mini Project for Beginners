@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cybersecurity Detective Academy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div id="welcome" class="screen active">
+        <h1>🕵️ Cybersecurity Detective Academy</h1>
+        <p>Become a cyber detective! Solve three mysteries, earn badges, and learn essential cybersecurity skills.</p>
+        <button onclick="showScreen('case-selection')">Start Investigation 🔍</button>
+    </div>
+    <!-- Case Selection -->
+    <div id="case-selection" class="screen">
+        <h2>Select Your Case</h2>
+        <div class="cases">
+            <button onclick="showScreen('password-mystery')">1️⃣ The Weak Password Mystery</button>
+            <button onclick="showScreen('phishing-investigation')">2️⃣ The Phishing Email Investigation</button>
+            <button onclick="showScreen('secret-message')">3️⃣ The Secret Message Decoder</button>
+        </div>
+        <button onclick="showScreen('welcome')">← Back</button>
+    </div>
+    <!-- Case 1: Password Strength Checker -->
+    <div id="password-mystery" class="screen">
+        <h2>The Weak Password Mystery</h2>
+        <p>Type a password and see its strength!</p>
+        <input type="text" id="pwInput" placeholder="Enter password">
+        <button onclick="checkPassword()">Check Strength</button>
+        <div id="pwFeedback"></div>
+        <button onclick="showScreen('case-selection')">← Back</button>
+    </div>
+    <!-- Case 2: Phishing Email Investigation -->
+    <div id="phishing-investigation" class="screen">
+        <h2>The Phishing Email Investigation</h2>
+        <div id="emailList"></div>
+        <button onclick="showScreen('case-selection')">← Back</button>
+    </div>
+    <!-- Case 3: Caesar Cipher Decoder -->
+    <div id="secret-message" class="screen">
+        <h2>The Secret Message Decoder</h2>
+        <p>Decrypt this message: <b id="cipherText"></b></p>
+        <label>Shift: <input type="number" id="shiftInput" min="1" max="25" value="3"></label>
+        <button onclick="decodeMessage()">Decode</button>
+        <div id="decodeFeedback"></div>
+        <button onclick="showScreen('case-selection')">← Back</button>
+    </div>
+    <!-- Progress & Badges -->
+    <div id="progress" class="screen">
+        <h2>Your Progress</h2>
+        <div id="progressBadges"></div>
+        <button onclick="showScreen('case-selection')">← Back</button>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
