@@ -114,3 +114,123 @@ h1, h2 {
     margin-top: 0;
 }
 
+
+// App Data
+const emails = [
+    {
+        subject: "Urgent: Verify Your Bank Account",
+        sender: "security@yourbankk.com",
+        content: "Click here to verify: http://fake-bank-site.com/verify",
+        phishing: true,
+        indicators: "Suspicious sender, urgent tone, fake link"
+    },
+    {
+        subject: "Team Meeting Tomorrow",
+        sender: "manager@yourcompany.com",
+        content: "Quarterly review meeting at 10 AM.",
+        phishing: false,
+        indicators: "Normal business email"
+    },
+    {
+        subject: "You've Won $1,000,000!",
+        sender: "lottery@winbigtoday.net",
+        content: "Send us your bank info to claim prize.",
+        phishing: true,
+        indicators: "Unlikely offer, requests personal info"
+    },
+    {
+        subject: "IT Security Update",
+        sender: "it-security@yourcompany.com",
+        content: "Read the new cybersecurity policy.",
+        phishing: false,
+        indicators: "Relevant, professional communication"
+    }
+];
+
+let badges = [];
+// Navigation
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(e => e.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    if (id === 'phishing-investigation') loadEmails();
+    if (id === 'progress') showProgress();
+    if (id === 'secret-message') document.getElementById('cipherText').innerText = 'WKLV LV D VHFUHW PHVVDJH';
+}
+
+// Password checker
+function checkPassword() {
+    const pw = document.getElementById('pwInput').value;
+    let score = 0, feedback = [], strong = false;
+    if (pw.length >= 8) { score++; feedback.push("Good length."); }
+    if (/[A-Z]/.test(pw)) { score++; feedback.push("Contains uppercase."); }
+    if (/[a-z]/.test(pw)) { score++; feedback.push("Contains lowercase."); }
+    if (/[0-9]/.test(pw)) { score++; feedback.push("Contains numbers."); }
+    if (/[^A-Za-z0-9]/.test(pw)) { score++; feedback.push("Contains special characters."); }
+    let msg = score >= 4 ? 'Strong password! 🏅' : score >= 3 ? 'Moderate password.' : 'Weak password!';
+    if (score >= 4 && !badges.includes('Password Expert')) badges.push('Password Expert');
+    document.getElementById('pwFeedback').innerHTML = `<b>${msg}</b><br>${feedback.join('<br>')}`;
+}
+
+// Phishing email game
+function loadEmails() {
+    const container = document.getElementById('emailList');
+    container.innerHTML = '';
+    emails.forEach((email, idx) => {
+        container.innerHTML += `
+        <div style="padding:1em;border-radius:12px;background:#183458;margin-bottom:1em">
+            <b>Subject:</b> ${email.subject}<br>
+            <b>Sender:</b> ${email.sender}<br>
+            <b>Message:</b> ${email.content}<br>
+            <button onclick="gradeEmail(${idx},true)">Suspicious</button>
+            <button onclick="gradeEmail(${idx},false)">Safe</button>
+            <div id="result${idx}"></div>
+        </div>`;
+    });
+}
+
+function gradeEmail(idx, suspicious) {
+    const email = emails[idx];
+    let correct = suspicious === email.phishing;
+    let badgeAwarded = false;
+    let msg = correct ? 'Correct! ' : 'Incorrect. ';
+    msg += correct
+        ? `(${email.indicators})`
+        : `Hint: ${email.indicators}`;
+    document.getElementById('result' + idx).innerHTML = msg;
+    // Check if all phishing emails are correctly marked
+    if (document.querySelectorAll('[id^=result]').length === emails.length) {
+        let marked = emails.filter((e, i) => document.getElementById('result'+i).innerText.includes('Correct!') === (e.phishing ? true : false));
+        if (marked.length === emails.length && !badges.includes('Phishing Hunter')) {
+            badges.push('Phishing Hunter');
+        }
+    }
+}
+
+// Caesar Cipher Decoder
+function decodeMessage() {
+    let cipher = 'WKLV LV D VHFUHW PHVVDJH';
+    let shift = parseInt(document.getElementById('shiftInput').value);
+    let decoded = cipher.split('').map(ch => {
+        let c = ch.charCodeAt(0);
+        if (ch.match(/[A-Z]/)) {
+            c = ((c - 65 - shift + 26) % 26) + 65;
+            return String.fromCharCode(c);
+        } else if (ch.match(/[a-z]/)) {
+            c = ((c - 97 - shift + 26) % 26) + 97;
+            return String.fromCharCode(c);
+        } else return ch;
+    }).join('');
+    let correct = decoded.trim() === 'THIS IS A SECRET MESSAGE';
+    if (correct && !badges.includes('Code Breaker')) badges.push('Code Breaker');
+    document.getElementById('decodeFeedback').innerHTML = `<b>${decoded}</b> <br> ${correct ? 'Well done! 🏅' : 'Try a different shift.'}`;
+}
+
+// Show progress and badges
+function showProgress() {
+    let container = document.getElementById('progressBadges');
+    if (!badges.length) container.innerHTML = 'No badges yet. Complete cases to earn achievements!';
+    else container.innerHTML = badges.map(b =>
+        `<span class="badge">${b === 'Password Expert' ? '🔐' : b === 'Phishing Hunter' ? '🎣' : b === 'Code Breaker' ? '🔓' : ''} ${b}</span>`
+    ).join(' ');
+    if (badges.length === 3) container.innerHTML += '<br><span class="badge">🕵️ Cyber Detective (All cases completed!)</span>';
+}
