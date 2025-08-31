@@ -56,3 +56,61 @@
     <script src="app.js"></script>
 </body>
 </html>
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #13243B;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+.screen {
+    display: none;
+    padding: 2em;
+    max-width: 450px;
+    margin: 3em auto 0 auto;
+    background: #26324F;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.14);
+}
+.screen.active {
+    display: block;
+}
+button {
+    background: #1a68b3;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.7em 1.5em;
+    margin: 1em 0.5em 0 0;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background .2s;
+}
+button:hover {
+    background: #4479e9;
+}
+input[type="text"], input[type="number"] {
+    padding: 0.5em;
+    border-radius: 8px;
+    border: 1px solid #4479e9;
+    width: 220px;
+    margin: 0.8em 0 1em 0;
+}
+.cases button {
+    display: block;
+    width: 100%;
+    margin: 1em 0;
+}
+#progressBadges .badge {
+    margin: 0.5em 0;
+    font-size: 1.2em;
+    padding: 0.3em 0.8em;
+    border-radius: 8px;
+    background: #1a68b3;
+    display: inline-block;
+}
+h1, h2 {
+    margin-top: 0;
+}
+
